@@ -1,0 +1,81 @@
+# coding: utf-8
+# Created on: 2018-07-19
+# Author: Emmanuel Arias
+# E-mail: eamanu@eamanu.com
+"""
+Database Management
+:author: Emmanuel Arias
+"""
+
+from pymongo import errors
+from pymongo import MongoClient
+
+
+class DatabaseManagement(object):
+    """This class is use to Database Management
+
+    This class have the methods necessary to:
+
+    - Add
+    - Update
+    - Delete
+
+    *DatabaseManagement* need 3 variables to be created:
+
+    - :param ip: IP Database
+    - :param port: Port Database
+    - :param db_name: Database Name
+    - :type ip: string
+    - :type port: int
+    - :type db_name:
+
+    :Example:
+    >>> dm = DatabaseManagement('localhost', 27017, 'test')
+    >>> <DatabaseManagement object at 0x7f100f150250>
+
+    """
+
+    def __init__(self, ip, port, db_name):
+        self.ip = ip
+        self.port = port
+        self.db_name = db_name
+        self.client = None
+        self.db = None
+        self.____connect()
+
+    def ____connect(self):
+        self.client = MongoClient(self.ip, self.port)
+        self.db = self.client[self.db_name]
+
+    def get_client(self):
+        """Get the client name used
+
+        :returns: self.client. Client name
+        :rtype: string
+
+        """
+        return self.client
+
+    def insert_element(self, collection, element):
+        """Insert a element"""
+        result = self.db[collection].insert_one(element)
+        return result
+
+    def insert_many(self, collection, elements):
+        result = self.db[collection].insert_many(elements)
+        return result
+
+    def update_element(self, collection, filt, update):
+        result = self.db[collection].update_one(filt, update)
+        return result
+
+    def delete_element(self, collection, filt):
+        result = self.db[collection].delet_one(filt)
+        return result
+
+    def show_elements(self, collection, filt=None):
+        if filt is None:
+            result = self.db[collection].find()
+        else:
+            result = self.db[collection].find(filt)
+        return result
