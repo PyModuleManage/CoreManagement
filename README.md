@@ -31,5 +31,5 @@ module uninstalling
 
 # Contribution
  
-Please see `CONTRIBUTE.md`
+Please see [`CONTRIBUTE.md`](./CONTRIBUTING.md)
 

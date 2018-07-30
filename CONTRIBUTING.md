@@ -1,9 +1,7 @@
 # Contribute
 
-If you have some comments, suggestions please feel free to send a e-mail to:
-
-1. The author personal e-mail address: kantorzsolt@yahoo.com or
-2. The maintainer personal e-mail address: emmanuelarias30@gmail.com
+If you have some comments, suggestions please feel free to send to my 
+personal e-mail eamanu@eamanu.com
 
 ---
 
@@ -13,7 +11,7 @@ The issues must include a [short, self contained, correct example] (http://sscce
 
 Before send a issue, you shall be sure that the issue don't exist currently.
 
-Please, to send a issue go [here](https://github.com/eamanu/Aping/issues)
+Please, to send a issue go [here](https://github.com/PyModuleManage/CoreManagement/issues)
 
 ---
 
@@ -31,7 +29,7 @@ I leave here some references that personally I like, about how to write good com
 2. https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 3. http://365git.tumblr.com/post/3308646748/writing-git-commit-messages
 
-You could send your PR from [here](https://github.com/eamanu/Aping/pulls)
+You could send your PR from [here](https://github.com/PyModuleManage/CoreManagement/pulls)
 
 # Coding conventions
 
