@@ -5,8 +5,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = CoreManagement
-SOURCEDIR     = source
-BUILDDIR      = build
+SOURCEDIR     = source_doc
+BUILDDIR      = build_doc
 
 # Put it first so that "make" without argument is like "make help".
 help:

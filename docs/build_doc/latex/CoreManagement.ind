@@ -1,0 +1,15 @@
+\begin{sphinxtheindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter G
+  \item get\_access() (src.ModuleManagement.ModuleManagement method), \hyperpage{1}
+
+  \indexspace
+  \bigletter M
+  \item ModuleManagement (class in src.ModuleManagement), \hyperpage{1}
+
+  \indexspace
+  \bigletter S
+  \item src.ModuleManagement (module), \hyperpage{1}
+
+\end{sphinxtheindex}

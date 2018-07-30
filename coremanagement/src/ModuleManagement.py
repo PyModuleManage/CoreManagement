@@ -106,13 +106,11 @@ class ModuleManagement(object):
         """This method is used to get the access for user
         to some modules.
 
-        Parameters
-        ----------
+        :Parameters:
 
         TBD
 
-        Returns
-        -------
+        :Returns:
 
         TBD
         """
