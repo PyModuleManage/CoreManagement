@@ -6,7 +6,7 @@
 Configuration Management
 :author: Emmanuel Arias
 """
-import DatabaseManagement as dm
+from src import DatabaseManagement as dm
 
 
 class ConfigurationManagement(object):
@@ -53,7 +53,7 @@ class ConfigurationManagement(object):
 
     def get_configuration(self, module_name):
         if not isinstance(module_name, str):
-            raise "Module name shall be a str instance"
+            raise Exception("Module name shall be a str instance")
         fil = {'module_name': module_name}
         result = self.dm.show_elements(self.collection, fil)
         return result

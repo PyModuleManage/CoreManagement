@@ -13,9 +13,9 @@ import os
 from bson.json_util import dumps
 from bson.json_util import loads
 
-import ConfigurationManagement as cm
-import DatabaseManagement as dm
-import Package
+from src import ConfigurationManagement as cm
+from src import DatabaseManagement as dm
+from src import Package
 
 
 class ModuleManagement(object):
