@@ -8,12 +8,13 @@ Module Management
 :author: Emmanuel Arias
 """
 
-import DatabaseManagement as dm
-import ConfigurationManagement as cm
-import pprint
+import os
+
 from bson.json_util import dumps
 from bson.json_util import loads
-import os
+
+import ConfigurationManagement as cm
+import DatabaseManagement as dm
 import Package
 
 
@@ -48,7 +49,8 @@ class ModuleManagement(object):
     def ___get_packages_installed(self):
         try:
             self.list_installed_pck = os.listdir(self.packages_folder)
-            l_pck = [pck for pck in self.list_installed_pck if pck.endswith('_pck') and os.path.isdir(pck)]
+            l_pck = [pck for pck in self.list_installed_pck if
+                     os.path.isdir(pck)]
             self.cnt_installed_pck = len(l_pck)
             return self.list_installed_pck
         except OSError as oserror:
@@ -63,7 +65,20 @@ class ModuleManagement(object):
         return result
 
     def install_module(self, module_name, module_package):
-        package = Package.Package(module_name, module_package, self.packages_folder)
+        """Installation method.
+
+        This method install a package on the `self.packages_folder` and
+        insert the module information into the database
+
+        :param module_name: Module name
+        :type module_name: str
+        :param module_package: Path to the module pacakge
+        :type module_package: str
+        :return: An instance of InsertOneResult
+        :rtype: InsertOneResult
+        """
+        package = Package.Package(module_name, module_package,
+                                  self.packages_folder)
         rst = package.install()
         result = self.dm.insert_element(self.collection, rst)
         return result

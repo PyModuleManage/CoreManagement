@@ -7,7 +7,6 @@ Database Management
 :author: Emmanuel Arias
 """
 
-from pymongo import errors
 from pymongo import MongoClient
 
 
@@ -30,8 +29,11 @@ class DatabaseManagement(object):
     - :type db_name:
 
     :Example:
-    >>> dm = DatabaseManagement('localhost', 27017, 'test')
-    >>> <DatabaseManagement object at 0x7f100f150250>
+
+    .. code-block:: console
+
+        >>> dm = DatabaseManagement('localhost', 27017, 'test')
+        >>> <DatabaseManagement object at 0x7f100f150250>
 
     """
 
@@ -57,7 +59,15 @@ class DatabaseManagement(object):
         return self.client
 
     def insert_element(self, collection, element):
-        """Insert a element"""
+        """Method that insert an element to database
+
+        :param collection: Collection name
+        :type collection: str
+        :param element: Element to add
+        :type element: json
+        :return: An instance of InsertOneResult
+        :rtype: InsertOneResult
+        """
         result = self.db[collection].insert_one(element)
         return result
 

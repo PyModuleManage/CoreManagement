@@ -7,13 +7,23 @@ Package
 :author: Emmanuel Arias
 """
 
+import json
+import os
 import shutil
 import tarfile
-import os
-import json
 
 
 class Package(object):
+    """Package object
+
+    :param module_name: Module Name
+    :type module_name: str
+    :param module_package: path to the module
+    :type module_package: str
+    :param dst_package: path where package are installed
+    :type dst_package: str
+
+    """
     def __init__(self, module_name, module_package, dst_package):
         self.module_name = module_name
         self.module_package = module_package  # path to the module
@@ -31,13 +41,15 @@ class Package(object):
             print('Error in the copy package to dst: {}'.format(ioerror))
 
     def read_package_data(self):
-        with open(os.path.join(self.dst_package, '{}.json'.format(self.module_name))) as json_file:
+        with open(os.path.join(self.dst_package, '{}.json'.format(
+                self.module_name))) as json_file:
             data = json.load(json_file)
             if data['package']['module_name'] == self.module_name:
                 self.package_information = data
                 return True
             else:
-                raise Exception('Module name including in the package is not given name same')
+                raise Exception('Module name including in the package is not '
+                                'given name same')
 
     def install(self):
         try:
