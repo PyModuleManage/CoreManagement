@@ -6,14 +6,16 @@
 Configuration Management
 :author: Emmanuel Arias
 """
-from src import DatabaseManagement as dm
+from . import DatabaseManagement as dm
 
 
 class ConfigurationManagement(object):
     """This class manage the module configuration
 
     """
-    def __init__(self, ip, port, db_name):
+    def __init__(self, ip, port, db_name, timeout_database: "Timout "
+                                                            "database" = 1):
+        self.timeout_database = timeout_database
         self.ip = ip
         self.port = port
         self.db_name = db_name
@@ -22,7 +24,8 @@ class ConfigurationManagement(object):
         self.___connect_to_db()
 
     def ___connect_to_db(self):
-        self.dm = dm.DatabaseManagement(self.ip, self.port, self.db_name)
+        self.dm = dm.DatabaseManagement(self.ip, self.port, self.db_name,
+                                        self.timeout_database)
 
     def new_configuration(self, module_configs):
         result = self.dm.insert_element(self.collection, module_configs)

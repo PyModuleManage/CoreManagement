@@ -13,7 +13,7 @@ import sys
 
 import configparser
 
-from src.ModuleManagement import ModuleManagement as modman
+from .src import ModuleManagement as modman
 
 CWD = os.getcwd()
 CONFIGURATION_FILE = 'config/config.ini'
@@ -21,6 +21,7 @@ CONFIGURATION_FILE = 'config/config.ini'
 
 class CoreManagement(object):
     def __init__(self):
+        self.timeout_database = None
         self.ip = None
         self.port = None
         self.db_name = None
@@ -28,6 +29,12 @@ class CoreManagement(object):
         self.mm = None
         self.read_configuration(CONFIGURATION_FILE)
         self.___create_instance_module_management()
+
+    def ___test_connection_to_database(self) -> bool:
+        if self.mm.test_connection():
+            return True
+        else:
+            return False
 
     def ___create_instance_module_management(self):
         self.mm = modman(self.ip, self.port, self.db_name,
@@ -41,6 +48,7 @@ class CoreManagement(object):
         self.port = config.getint('CONFIG', 'PORT')
         self.db_name = config['CONFIG']['DB_NAME'].strip()
         self.installation_path = config['CONFIG']['INSTALL_PATH'].strip()
+        self.timeout_database = config.getint('CONFIG', 'TIMEOUT_DB')
 
         if len(self.ip) == 0 and len(self.port) == 0 and \
                 len(self.db_name) == 0 and len(self.installation_path) == 0:
@@ -56,7 +64,17 @@ class CoreManagement(object):
 
 
 def help():
-    sys.exit('\n\nHelp print')
+    sys.exit("""Usage: python coremangement.py {OPTIONS}
+    
+    OPTIONS:
+        -i, --install <name>
+            Specify the name of the module to install
+        -d, --directory <path/to/module>
+            Specify the path to the module to install
+        -h, --help
+            Print this message.
+     
+    """)
 
 
 if __name__ == '__main__':

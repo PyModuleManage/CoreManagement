@@ -8,6 +8,7 @@ Database Management
 """
 
 from pymongo import MongoClient
+from pymongo.errors import ServerSelectionTimeoutError
 
 
 class DatabaseManagement(object):
@@ -37,7 +38,9 @@ class DatabaseManagement(object):
 
     """
 
-    def __init__(self, ip, port, db_name):
+    def __init__(self, ip, port, db_name, timeout_database: "Timeout of "
+                                                            "database" = 1):
+        self.timeout_database = timeout_database
         self.ip = ip
         self.port = port
         self.db_name = db_name
@@ -48,6 +51,14 @@ class DatabaseManagement(object):
     def ____connect(self):
         self.client = MongoClient(self.ip, self.port)
         self.db = self.client[self.db_name]
+
+    def test_connection(self) -> bool:
+        try:
+            self.client.server_info()
+            return True
+        except ServerSelectionTimeoutError as error:
+            print("Error: {}".format(error))
+            return False
 
     def get_client(self):
         """Get the client name used

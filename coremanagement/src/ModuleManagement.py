@@ -13,9 +13,9 @@ import os
 from bson.json_util import dumps
 from bson.json_util import loads
 
-from src import ConfigurationManagement as cm
-from src import DatabaseManagement as dm
-from src import Package
+from . import ConfigurationManagement as cm
+from . import DatabaseManagement as dm
+from . import Package
 
 
 class ModuleManagement(object):
@@ -34,7 +34,9 @@ class ModuleManagement(object):
     :type packages_folder: str
 
     """
-    def __init__(self, ip, port, db_name, packages_folder):
+    def __init__(self, ip, port, db_name, packages_folder, timeout_database:
+    "Timeout Database" = 1):
+        self.timeout_database = timeout_database
         self.ip = ip
         self. port = port
         self.db_name = db_name
@@ -57,8 +59,10 @@ class ModuleManagement(object):
             print("Error: {}".format(oserror))
 
     def ___connect_to_db(self):
-        self.dm = dm.DatabaseManagement(self.ip, self.port, self.db_name)
-        self.cm = cm.ConfigurationManagement(self.ip, self.port, self.db_name)
+        self.dm = dm.DatabaseManagement(self.ip, self.port, self.db_name,
+                                        self.timeout_database)
+        self.cm = cm.ConfigurationManagement(self.ip, self.port, self.db_name,
+                                             self.timeout_database)
 
     def read_configuration(self, module_name):
         result = self.cm.get_configuration(module_name)
@@ -131,3 +135,8 @@ class ModuleManagement(object):
         """
         pass
 
+    def test_connection(self) -> bool:
+        if self.dm.test.test_connection():
+            return True
+        else:
+            return False
