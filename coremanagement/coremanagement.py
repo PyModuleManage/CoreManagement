@@ -13,7 +13,7 @@ import sys
 
 import configparser
 
-from .src import ModuleManagement as modman
+from src import ModuleManagement as modman
 
 CWD = os.getcwd()
 CONFIGURATION_FILE = 'config/config.ini'
@@ -29,6 +29,8 @@ class CoreManagement(object):
         self.mm = None
         self.read_configuration(CONFIGURATION_FILE)
         self.___create_instance_module_management()
+        if self.___test_connection_to_database() is False:
+            raise Exception("DB connection Error")
 
     def ___test_connection_to_database(self) -> bool:
         if self.mm.test_connection():
@@ -37,8 +39,10 @@ class CoreManagement(object):
             return False
 
     def ___create_instance_module_management(self):
-        self.mm = modman(self.ip, self.port, self.db_name,
-                         self.installation_path)
+        print(type(self.installation_path))
+        self.mm = modman.ModuleManagement(self.ip, self.port, self.db_name,
+                                          self.installation_path,
+                                          self.timeout_database)
 
     def read_configuration(self, path_to_configuration):
         config = configparser.ConfigParser()
@@ -60,9 +64,8 @@ class CoreManagement(object):
         else:
             raise Exception('Does not exist the module package to install')
 
+
 # TODO: Complete the help print
-
-
 def help():
     sys.exit("""Usage: python coremangement.py {OPTIONS}
     
@@ -73,17 +76,22 @@ def help():
             Specify the path to the module to install
         -h, --help
             Print this message.
-     
+        --test-connection
+            Test connection to DB     
     """)
 
 
 if __name__ == '__main__':
     # Option parser, check for valid options
-    core = CoreManagement()
     try:
-        valid_options = getopt.gnu_getopt(sys.argv[1:], "i:d:h", ('install',
-                                                                  'directory',
-                                                                  'help'))
+        core = CoreManagement()
+    except  Exception as error:
+        sys.exit("""Error on DB Connection""")
+    try:
+        valid_options = getopt.gnu_getopt(sys.argv[1:],
+                                          "i:d:h",
+                                          ('install', 'directory', 'help',
+                                           'test-connection'))
     except getopt.GetoptError as bad_opt:
         sys.exit(
             "\n coremamagement %s \nTry -h or --help for a list of available "

@@ -6,7 +6,7 @@
 Configuration Management
 :author: Emmanuel Arias
 """
-from . import DatabaseManagement as dm
+from src import DatabaseManagement as dm
 
 
 class ConfigurationManagement(object):

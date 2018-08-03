@@ -13,9 +13,9 @@ import os
 from bson.json_util import dumps
 from bson.json_util import loads
 
-from . import ConfigurationManagement as cm
-from . import DatabaseManagement as dm
-from . import Package
+from src import ConfigurationManagement as cm
+from src import DatabaseManagement as dm
+from src import Package
 
 
 class ModuleManagement(object):
@@ -136,7 +136,7 @@ class ModuleManagement(object):
         pass
 
     def test_connection(self) -> bool:
-        if self.dm.test.test_connection():
+        if self.dm.test_connection():
             return True
         else:
             return False
