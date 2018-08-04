@@ -6,7 +6,7 @@
 Database Management
 :author: Emmanuel Arias
 """
-
+import pymongo
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 
@@ -81,7 +81,10 @@ class DatabaseManagement(object):
         :rtype: InsertOneResult
         """
         result = self.db[collection].insert_one(element)
-        return result
+        if isinstance(result, pymongo.results.InsertOneResult):
+            return True
+        else:
+            return False
 
     def insert_many(self, collection, elements):
         result = self.db[collection].insert_many(elements)

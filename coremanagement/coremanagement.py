@@ -60,9 +60,15 @@ class CoreManagement(object):
         if os.path.exists(module):
             print('CoreManagement: I will try to install {} ...'.format(
                 module_name))
-            self.mm.install_module(module_name, module)
+            result = self.mm.install_module(module_name, module)
         else:
             raise Exception('Does not exist the module package to install')
+        if result:
+            print('Installation of {} module successfully'.format(module_name))
+            return True
+        else:
+            raise Exception('Some problem on installation of module on '
+                            'database')
 
 
 # TODO: Complete the help print
