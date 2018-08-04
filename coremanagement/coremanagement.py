@@ -39,7 +39,6 @@ class CoreManagement(object):
             return False
 
     def ___create_instance_module_management(self):
-        print(type(self.installation_path))
         self.mm = modman.ModuleManagement(self.ip, self.port, self.db_name,
                                           self.installation_path,
                                           self.timeout_database)
@@ -52,8 +51,7 @@ class CoreManagement(object):
         self.port = config.getint('CONFIG', 'PORT')
         self.db_name = config['CONFIG']['DB_NAME'].strip()
         self.installation_path = config['CONFIG']['INSTALL_PATH'].strip()
-        self.timeout_database = config.getint('CONFIG', 'TIMEOUT_DB')
-
+        self.timeout_database = config.getint('CONFIG', 'TIMEOUT_DB_MS')
         if len(self.ip) == 0 and len(self.port) == 0 and \
                 len(self.db_name) == 0 and len(self.installation_path) == 0:
             raise Exception('There are not sufficient data on CONFIG_CORE.ini')
@@ -86,7 +84,7 @@ if __name__ == '__main__':
     try:
         core = CoreManagement()
     except  Exception as error:
-        sys.exit("""Error on DB Connection""")
+        sys.exit("""Error on DB Connection {}""".format(error))
     try:
         valid_options = getopt.gnu_getopt(sys.argv[1:],
                                           "i:d:h",

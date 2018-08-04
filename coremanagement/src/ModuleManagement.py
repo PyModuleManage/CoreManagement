@@ -34,11 +34,12 @@ class ModuleManagement(object):
     :type packages_folder: str
 
     """
+
     def __init__(self, ip, port, db_name, packages_folder, timeout_database:
     "Timeout Database" = 1):
         self.timeout_database = timeout_database
         self.ip = ip
-        self. port = port
+        self.port = port
         self.db_name = db_name
         self.dm = None
         self.collection = 'ModuleConfiguration'

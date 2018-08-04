@@ -49,7 +49,8 @@ class DatabaseManagement(object):
         self.____connect()
 
     def ____connect(self):
-        self.client = MongoClient(self.ip, self.port)
+        self.client = MongoClient(self.ip, self.port,
+                                  serverSelectionTimeoutMS=self.timeout_database)
         self.db = self.client[self.db_name]
 
     def test_connection(self) -> bool:
