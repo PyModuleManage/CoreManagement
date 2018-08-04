@@ -58,6 +58,8 @@ class CoreManagement(object):
 
     def install(self, module_name, module):
         if os.path.exists(module):
+            print('CoreManagement: I will try to install {} ...'.format(
+                module_name))
             self.mm.install_module(module_name, module)
         else:
             raise Exception('Does not exist the module package to install')
@@ -81,6 +83,10 @@ def help():
 
 if __name__ == '__main__':
     # Option parser, check for valid options
+    module_name = None
+    module_pck = None
+    directory_module = None
+
     try:
         core = CoreManagement()
     except  Exception as error:
@@ -97,8 +103,14 @@ if __name__ == '__main__':
 
     for opt, arg in valid_options[0]:
         if opt == '-i' or opt == '--install':
-            for o, a in valid_options:
-                if opt == '-d' or opt == '--directory':
-                    core.install(arg, a)
+            module_name = arg
+        if opt == '-d' or opt == '--directory':
+            directory_module = arg
         if opt == '-h' or opt == '--help':
             help()
+
+    if module_name is not None or directory_module is not None:
+        try:
+            core.install(module_name,directory_module)
+        except Exception as error:
+            print(error)

@@ -33,7 +33,7 @@ class Package(object):
     def ___uncompress_package(self):
         try:
             shutil.copy(self.module_package, self.dst_package)
-            tarfile.TarFile(os.path.join(self.dst_package,
+            tarfile.open(os.path.join(self.dst_package,
                                          os.path.basename(self.module_package)),
                             'r').extractall(self.dst_package)
             # TODO: maybe we need to rm the .tar.gz package
