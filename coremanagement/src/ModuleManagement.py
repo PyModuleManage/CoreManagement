@@ -84,7 +84,10 @@ class ModuleManagement(object):
         """
         package = Package.Package(module_name, module_package,
                                   self.packages_folder)
+
         rst = package.install()
+        if rst is False:
+            raise Exception("Error on package installation")
         result = self.dm.insert_element(self.collection, rst)
         return result
 

@@ -55,7 +55,7 @@ class Package(object):
         try:
             self.___uncompress_package()
             self.read_package_data()
-            return True
+            return self.package_information
         except Exception as error:
             print('Error: {}'.format(error))
             return False
