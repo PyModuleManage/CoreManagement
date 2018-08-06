@@ -25,9 +25,11 @@ class DatabaseManagement(object):
     - :param ip: IP Database
     - :param port: Port Database
     - :param db_name: Database Name
-    - :type ip: string
+    - :param timeout_database: Timeout of database [ms]
+    - :type ip: str
     - :type port: int
-    - :type db_name:
+    - :type db_name: str
+    - :type timeout_database: int
 
     :Example:
 
@@ -38,8 +40,10 @@ class DatabaseManagement(object):
 
     """
 
-    def __init__(self, ip, port, db_name, timeout_database: "Timeout of "
-                                                            "database" = 1):
+    def __init__(self, ip: str, port: int,
+                 db_name:str,  timeout_database: "Timeout of database" = 1) \
+            -> None:
+
         self.timeout_database = timeout_database
         self.ip = ip
         self.port = port
@@ -48,12 +52,19 @@ class DatabaseManagement(object):
         self.db = None
         self.____connect()
 
-    def ____connect(self):
+    def ____connect(self) -> None:
+        """Connect to Database
+
+        """
         self.client = MongoClient(self.ip, self.port,
                                   serverSelectionTimeoutMS=self.timeout_database)
         self.db = self.client[self.db_name]
 
     def test_connection(self) -> bool:
+        """Test if Database engine is available
+
+        :raise DatabaseException:
+        """
         try:
             self.client.server_info()
             return True
