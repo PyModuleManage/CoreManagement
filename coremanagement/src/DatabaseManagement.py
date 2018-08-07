@@ -9,7 +9,7 @@ Database Management
 import pymongo
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
-
+from src import CoreException
 
 class DatabaseManagement(object):
     """This class is use to Database Management
@@ -69,9 +69,12 @@ class DatabaseManagement(object):
             self.client.server_info()
             return True
         except ServerSelectionTimeoutError as error:
-            print("Error: {}".format(error))
-            return False
+            raise CoreException.TimeOutCoreDatabase("Timeout on while try to "
+                                                    "connect to Database. "
+                                                    "Please, Start the "
+                                                    "service mongod")
 
+    # TODO: complete this method
     def get_client(self):
         """Get the client name used
 
@@ -81,25 +84,42 @@ class DatabaseManagement(object):
         """
         return self.client
 
-    def insert_element(self, collection, element):
+    def insert_element(self, collection: pymongo.collection, element: str) -> bool:
         """Method that insert an element to database
 
         :param collection: Collection name
         :type collection: str
         :param element: Element to add
         :type element: json
-        :return: An instance of InsertOneResult
-        :rtype: InsertOneResult
+
+        :raise CoreException.ErrorInsertElementOnDatabase: If there is some
+        error on the insertion
         """
         result = self.db[collection].insert_one(element)
-        if isinstance(result, pymongo.results.InsertOneResult):
-            return True
-        else:
-            return False
+        if not isinstance(result, pymongo.results.InsertOneResult):
+            raise CoreException.ErrorInsertElementOnDatabase("Error on "
+                                                             "insert_one",
+                                                             collection,
+                                                             element)
 
     def insert_many(self, collection, elements):
+        """
+        Insert many elements to DB
+
+        :param collection: collection where save the data
+        :type collection: pymongo.collection
+        :param elements: Elements to insert to DB
+        :type elements: bson
+
+        :raise CoreException.ErrorInsertManyElementOnDatabase: if there are
+        some error on the insertion
+        """
         result = self.db[collection].insert_many(elements)
-        return result
+        if not isinstance(result, pymongo.results.InsertOneResult):
+            raise CoreException.ErrorInsertManyElementOnDatabase('Error on '
+                                                                 'insert_many',
+                                                                 collection,
+                                                                 elements)
 
     def update_element(self, collection, filt, update):
         result = self.db[collection].update_one(filt, update)

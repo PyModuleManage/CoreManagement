@@ -26,6 +26,36 @@ class CoreException(Exception):
                             pprint.pprint(v)
 
 
-class DatabaseException(CoreException):
-    def __init__(self, *args, **kwargs):
-        CoreException.__init__(self, *args, **kwargs)
+class DatabaseException(Exception):
+    def __init__(self, message: str, errors: dict = None):
+        super().__init__(message)
+        self.message = message
+        self.errors = errors
+
+        if self.errors is not None:
+            pprint.pprint(self.errors)
+
+
+class TimeOutCoreDatabase(DatabaseException):
+    def __init__(self, message: str):
+        super().__init__(message)
+        self.message = message
+
+
+class ErrorInsertElementOnDatabase(DatabaseException):
+    def __init__(self, message: str,
+                 collection: str = None, element: str = None):
+        self.message = message + " "
+        if collection is not None:
+            self.message = self.message + "collection: " + collection + " "
+            if element is not None:
+                self.message = self.message + "element: " + element
+        super().__init__(self.message)
+
+
+class ErrorInsertManyElementOnDatabase(ErrorInsertElementOnDatabase):
+    def __init__(self, message: str,
+                 collection: str = None,
+                 element: str = None):
+        super().__init__(message, collection, element)
+
