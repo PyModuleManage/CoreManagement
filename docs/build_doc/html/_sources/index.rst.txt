@@ -10,6 +10,8 @@ Welcome to CoreManagement's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+    configmodule
+
 .. automodule:: src.ModuleManagement
     :members:
 

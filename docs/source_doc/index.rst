@@ -4,11 +4,13 @@
    contain the root `toctree` directive.
 
 Welcome to CoreManagement's documentation!
-==========================================
+================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   configmodule
 
 .. automodule:: src.ModuleManagement
     :members:

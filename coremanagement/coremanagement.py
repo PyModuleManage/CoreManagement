@@ -57,7 +57,17 @@ class CoreManagement(object):
                 len(self.db_name) == 0 and len(self.installation_path) == 0:
             raise Exception('There are not sufficient data on CONFIG_CORE.ini')
 
-    def install(self, module_name, module):
+    def install(self, module_name: str, module: str):
+        """ start the installation of the module
+
+        :param module_name: Module name
+        :type module_name: str
+        :param module: path to tar.gz of the module
+        :type module: str
+        :return: None
+        :raises CoreException.ErrorInsertElementOnDatabase: Error produce
+        when there are some problems on the module installation
+        """
         if os.path.exists(module):
             print('CoreManagement: I will try to install {} ...'.format(
                 module_name))
@@ -71,6 +81,8 @@ class CoreManagement(object):
             else:
                 print('Installation of {} module '
                       'successfully'.format(module_name))
+        else:
+            print('The {} module does not exist'.format(module))
 
 
 # TODO: Complete the help print
@@ -119,6 +131,6 @@ if __name__ == '__main__':
 
     if module_name is not None or directory_module is not None:
         try:
-            core.install(module_name,directory_module)
-        except Exception as error:
-            print(error)
+            core.install(module_name, directory_module)
+        except CoreException.ErrorInstallationModule as error:
+            print("Error of the module installation")

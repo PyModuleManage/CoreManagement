@@ -35,8 +35,9 @@ class ModuleManagement(object):
 
     """
 
-    def __init__(self, ip, port, db_name, packages_folder, timeout_database:
-    "Timeout Database" = 1):
+    def __init__(self, ip: str, port: int, db_name: str,
+                 packages_folder: str,
+                 timeout_database: int = 1):
         self.timeout_database = timeout_database
         self.ip = ip
         self.port = port

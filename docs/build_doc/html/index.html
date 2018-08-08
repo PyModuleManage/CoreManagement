@@ -1,21 +1,23 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Welcome to CoreManagement’s documentation! &#8212; CoreManagement 0.0.1 documentation</title>
+    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '0.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -23,14 +25,15 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="CoreManagement 0.0.1 documentation" href="#" />
+    <link rel="next" title="Configuration Module file" href="configmodule.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body>
+  <body role="document">
   
 
     <div class="document">
@@ -39,8 +42,12 @@
           <div class="body" role="main">
             
   <div class="section" id="welcome-to-coremanagement-s-documentation">
-<h1>Welcome to CoreManagement’s documentation!<a class="headerlink" href="#welcome-to-coremanagement-s-documentation" title="Permalink to this headline">¶</a></h1>
+<h1>Welcome to CoreManagement&#8217;s documentation!<a class="headerlink" href="#welcome-to-coremanagement-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configmodule.html">Configuration Module file</a></li>
+</ul>
 </div>
 <span class="target" id="module-src.ModuleManagement"></span><p>Module Management</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -53,7 +60,7 @@
 </table>
 <dl class="class">
 <dt id="src.ModuleManagement.ModuleManagement">
-<em class="property">class </em><code class="descclassname">src.ModuleManagement.</code><code class="descname">ModuleManagement</code><span class="sig-paren">(</span><em>ip</em>, <em>port</em>, <em>db_name</em>, <em>packages_folder</em><span class="sig-paren">)</span><a class="headerlink" href="#src.ModuleManagement.ModuleManagement" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">src.ModuleManagement.</code><code class="descname">ModuleManagement</code><span class="sig-paren">(</span><em>ip: str</em>, <em>port: int</em>, <em>db_name: str</em>, <em>packages_folder: str</em>, <em>timeout_database: int = 1</em><span class="sig-paren">)</span><a class="headerlink" href="#src.ModuleManagement.ModuleManagement" title="Permalink to this definition">¶</a></dt>
 <dd><p>This Class manage the installation of new module on the core</p>
 <p>This Class use the information necessary to run a
 installed module.</p>
@@ -62,10 +69,10 @@ installed module.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Database IP</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Database port</li>
-<li><strong>db_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Database Name</li>
-<li><strong>packages_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to packages folder installed</li>
+<li><strong>ip</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; Database IP</li>
+<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) &#8211; Database port</li>
+<li><strong>db_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; Database Name</li>
+<li><strong>packages_folder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; Path to packages folder installed</li>
 </ul>
 </td>
 </tr>
@@ -76,8 +83,50 @@ installed module.</p>
 <code class="descname">get_access</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.ModuleManagement.ModuleManagement.get_access" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is used to get the access for user
 to some modules.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
 <p>TBD</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
 <p>TBD</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="src.ModuleManagement.ModuleManagement.install_module">
+<code class="descname">install_module</code><span class="sig-paren">(</span><em>module_name</em>, <em>module_package</em><span class="sig-paren">)</span><a class="headerlink" href="#src.ModuleManagement.ModuleManagement.install_module" title="Permalink to this definition">¶</a></dt>
+<dd><p>Installation method.</p>
+<p>This method install a package on the <cite>self.packages_folder</cite> and
+insert the module information into the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; Module name</li>
+<li><strong>module_package</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; Path to the module pacakge</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An instance of InsertOneResult</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">InsertOneResult</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -101,6 +150,7 @@ to some modules.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="configmodule.html" title="next chapter">Configuration Module file</a></li>
   </ul></li>
 </ul>
 </div>
@@ -122,11 +172,11 @@ to some modules.</p>
       &copy;2018, Emmanuel Arias.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |
-      <a href="_sources/index.rst.txt"
+      <a href="_sources/index.txt"
           rel="nofollow">Page source</a>
     </div>
 
