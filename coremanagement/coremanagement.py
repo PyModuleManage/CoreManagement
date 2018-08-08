@@ -14,6 +14,7 @@ import sys
 import configparser
 
 from src import ModuleManagement as modman
+from src import CoreException
 
 CWD = os.getcwd()
 CONFIGURATION_FILE = 'config/config.ini'
@@ -60,15 +61,16 @@ class CoreManagement(object):
         if os.path.exists(module):
             print('CoreManagement: I will try to install {} ...'.format(
                 module_name))
-            result = self.mm.install_module(module_name, module)
-        else:
-            raise Exception('Does not exist the module package to install')
-        if result:
-            print('Installation of {} module successfully'.format(module_name))
-            return True
-        else:
-            raise Exception('Some problem on installation of module on '
-                            'database')
+            try:
+                self.mm.install_module(module_name, module)
+            except CoreException.ErrorInsertElementOnDatabase as error:
+                raise CoreException.ErrorInstallationModule("'Some problem "
+                                                            "on installation "
+                                                            "of module on"
+                                                            "CoreManagement'")
+            else:
+                print('Installation of {} module '
+                      'successfully'.format(module_name))
 
 
 # TODO: Complete the help print
@@ -95,8 +97,8 @@ if __name__ == '__main__':
 
     try:
         core = CoreManagement()
-    except  Exception as error:
-        sys.exit("""Error on DB Connection {}""".format(error))
+    except CoreException.TimeOutCoreDatabase as error:
+        sys.exit("""Error on DB Connection: {}""".format(error))
     try:
         valid_options = getopt.gnu_getopt(sys.argv[1:],
                                           "i:d:h",

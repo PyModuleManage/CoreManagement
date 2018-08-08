@@ -88,11 +88,7 @@ class ModuleManagement(object):
         rst = package.install()
         if rst is False:
             raise Exception("Error on package installation")
-        result = self.dm.insert_element(self.collection, rst)
-        if result:
-            return True
-        else:
-            return False
+        self.dm.insert_element(self.collection, rst)
 
     def run_module(self, module_name):
         conf = self.read_configuration(module_name)

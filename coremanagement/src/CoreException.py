@@ -26,6 +26,12 @@ class CoreException(Exception):
                             pprint.pprint(v)
 
 
+class ErrorInstallationModule(Exception):
+    def __init__(self, message: str):
+        super().__init__(message)
+        self.message = message
+
+
 class DatabaseException(Exception):
     def __init__(self, message: str, errors: dict = None):
         super().__init__(message)
