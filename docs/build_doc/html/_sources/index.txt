@@ -12,9 +12,6 @@ Welcome to CoreManagement's documentation!
 
    configmodule
 
-.. automodule:: src.ModuleManagement
-    :members:
-
 Indices and tables
 ==================
 
