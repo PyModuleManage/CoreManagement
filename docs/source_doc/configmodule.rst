@@ -8,7 +8,7 @@ The .json file must have the same name that the module name and 'module_name' ke
 
 The data including in the .json file are the next:
 
-:module_name: [Required] This is the module name. This must be the same that the moodule.tar.gz and module.json.
+:module_name: [Required] This is the module name. This must be the same that the module.tar.gz and module.json.
 
 :running: [Required] This is a dict with information necessary to know how the module must be run
 
