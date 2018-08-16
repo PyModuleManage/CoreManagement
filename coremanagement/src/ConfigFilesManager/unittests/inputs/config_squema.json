@@ -1,0 +1,23 @@
+{
+  "CONFIG":{
+    "IP":{
+      "required": true,
+      "type":"str"
+    },
+    "PORT":{
+      "required": true,
+      "type":"int"
+    },
+    "BD_NAME":{
+      "required": true,
+      "type":"str"
+    },
+    "INSTALL_PATH":{
+      "required":true
+    },
+    "TIMEOUT_DB_MS":{
+      "required":true,
+      "type": "int"
+    }
+  }
+}
