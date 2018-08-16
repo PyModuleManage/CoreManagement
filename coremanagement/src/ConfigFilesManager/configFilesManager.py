@@ -1,8 +1,10 @@
 import os
-from ConfigFileManager.ConfigException import ConfigException
-from ConfigFileManager.ConfigException import KeyNotInConfigFile
-from ConfigFileManager.ConfigException import NotValidValueConfig
-from ConfigFileManager.ConfigException import RequiredNotExiste
+# import sys
+
+from ConfigExceptions import ConfigException
+from ConfigExceptions import KeyNotInConfigFile
+from ConfigExceptions import NotValidValueConfig
+from ConfigExceptions import RequiredNotExiste
 import configparser
 
 
@@ -19,6 +21,20 @@ class configFilesManager(object):
                 self.path_to_config))
         if not isinstance(str, self.dict_config_allows):
             raise TypeError("dict_config_allows must be a dict()")
+
+        #  Read de config
+        self.___read_config()
+
+    @property
+    def config_parser_dict(self):
+        return self.config_parser_dict
+    @property
+    def dict_config_allows(self):
+        return self.dict_config_allows
+
+    @property
+    def config(self):
+        return self.config
 
     def ___read_config(self):
         self.config = configparser.ConfigParser()
