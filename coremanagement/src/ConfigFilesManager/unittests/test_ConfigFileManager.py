@@ -52,5 +52,6 @@ class TestConfigFileManager(unittest.TestCase):
         self.assertEqual(self.config_output_waiting,
                          self.configfilemanager.config_parser_dict)
 
-    if __name__ == '__main__':
-        unittest.main()
+
+if __name__ == '__main__':
+    unittest.main()

@@ -9,7 +9,7 @@ import configparser
 
 
 class configFilesManager(object):
-    def __init__(self, path_to_config: str, dict_config_allows: str):
+    def __init__(self, path_to_config: str, dict_config_allows: dict):
         self.path_to_config = path_to_config
         self.dict_config_allows = dict_config_allows
         self.config = None
@@ -19,22 +19,11 @@ class configFilesManager(object):
         if not os.path.isfile(self.path_to_config):
             raise ConfigException("Config File {}, does not exist".format(
                 self.path_to_config))
-        if not isinstance(str, self.dict_config_allows):
+        if not isinstance(self.dict_config_allows, dict):
             raise TypeError("dict_config_allows must be a dict()")
 
         #  Read de config
         self.___read_config()
-
-    @property
-    def config_parser_dict(self):
-        return self.config_parser_dict
-    @property
-    def dict_config_allows(self):
-        return self.dict_config_allows
-
-    @property
-    def config(self):
-        return self.config
 
     def ___read_config(self):
         self.config = configparser.ConfigParser()
