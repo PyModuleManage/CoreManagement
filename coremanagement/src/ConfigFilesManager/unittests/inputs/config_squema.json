@@ -13,7 +13,8 @@
       "type":"str"
     },
     "INSTALL_PATH":{
-      "required":true
+      "required":true,
+      "type":"str"
     },
     "TIMEOUT_DB_MS":{
       "required":true,

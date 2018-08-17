@@ -36,7 +36,7 @@ class TestConfigFileManager(unittest.TestCase):
                         'TIMEOUT_DB_MS': {'type': 'int', 'required': True},
                         'PORT': {'type': 'int', 'required': True},
                         'BD_NAME': {'type': 'str', 'required': True},
-                        'INSTALL_PATH': {'required': True}}}
+                        'INSTALL_PATH': {'type': 'str', 'required': True}}}
         self.assertEqual(a, self.config_squema)
         self.assertEqual(self.configfilemanager.dict_config_allows,
                          self.config_squema)
