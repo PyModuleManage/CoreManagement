@@ -8,7 +8,7 @@
       "required": true,
       "type":"int"
     },
-    "BD_NAME":{
+    "DB_NAME":{
       "required": true,
       "type":"str"
     },

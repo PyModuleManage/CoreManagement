@@ -32,6 +32,11 @@ class configFilesManager(object):
     def ___update_parser_config_dict(self, key_config, key2_dict,
                                      value2_dict, required=False):
         try:
+            if key_config not in self.parser_config_dict.keys():
+                self.parser_config_dict[key_config] = dict()
+            else:
+                pass
+
             if value2_dict['type'] == 'int':
                 self.parser_config_dict[key_config][key2_dict] = \
                     self.config.getint(key_config, key2_dict)
@@ -57,8 +62,12 @@ class configFilesManager(object):
                 flag_used = True
 
         except KeyError as keyerror:
-            raise KeyNotInConfigFile("{} Does not exist on Config File "
-                                     "this is required".format(keyerror))
+            if required:
+                raise KeyNotInConfigFile("{} Does not exist on Config File "
+                                         "this is required".format(keyerror))
+            else:
+                pass
+
         except ValueError as valueerror:
             raise NotValidValueConfig('Not valid Type: {}'.format(valueerror))
 
@@ -88,5 +97,3 @@ class configFilesManager(object):
                             self.___update_parser_config_dict(key_config,
                                                               key2_dict,
                                                               values2_dict)
-        print("El emma estuvo aqui")
-        print(self.parser_config_dict)
