@@ -1,10 +1,16 @@
 import os
-# import sys
+import sys
 
-from ConfigExceptions import ConfigException
-from ConfigExceptions import KeyNotInConfigFile
-from ConfigExceptions import NotValidValueConfig
-from ConfigExceptions import RequiredNotExiste
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+    os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from ConfigFilesManager import ConfigException
+from ConfigFilesManager import NotValidValueConfig
+from ConfigFilesManager import KeyNotInConfigFile
+from ConfigFilesManager import RequiredNotExiste
+
 import configparser
 
 
@@ -61,6 +67,12 @@ class configFilesManager(object):
                     self.config[key_config][key2_dict]
                 flag_used = True
 
+        except configparser.NoOptionError as error:
+            if required:
+                raise KeyNotInConfigFile("{} Does not exist on Config File "
+                                         "this is required".format(error))
+            else:
+                pass
         except KeyError as keyerror:
             if required:
                 raise KeyNotInConfigFile("{} Does not exist on Config File "
@@ -70,6 +82,15 @@ class configFilesManager(object):
 
         except ValueError as valueerror:
             raise NotValidValueConfig('Not valid Type: {}'.format(valueerror))
+
+    def check_required(self):
+        for key, value in self.dict_config_allows.items():
+            for k, v in value.items():
+                if v['required']:
+                    if not self.config.has_option(key, k):
+                        raise RequiredNotExiste(
+                            "{} Does not exist on Config File "
+                            "this is required".format(k))
 
     def is_correct_information(self):
         for key_dict, values_dict in self.dict_config_allows.items():
@@ -86,10 +107,12 @@ class configFilesManager(object):
                             try:
                                 self.___update_parser_config_dict(key_config,
                                                                   key2_dict,
-                                                                  values2_dict)
+                                                                  values2_dict,
+                                                                  True)
                             except KeyNotInConfigFile as keynoterror:
                                 raise RequiredNotExiste('Required '\
                                      'value: {}'.format(keynoterror))
+
                         if key2_dict.lower() in options and values2_dict[
                             'required']\
                             == False:
@@ -97,3 +120,7 @@ class configFilesManager(object):
                             self.___update_parser_config_dict(key_config,
                                                               key2_dict,
                                                               values2_dict)
+
+    def run_check(self):
+        self.check_required()
+        self.is_correct_information()

@@ -3,12 +3,12 @@ import os
 import json
 import sys
 
-PACKAGE_PARENT = '..'
+PACKAGE_PARENT = '../..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(
     os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from configFilesManager import configFilesManager
+from ConfigFilesManager import *
 
 
 class TestConfigFileManager(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestConfigFileManager(unittest.TestCase):
                                self._name_config_squema)) as f:
             self.config_squema = json.loads(f.read())
 
-        self.configfilemanager = configFilesManager(
+        self.configfilemanager = configFilesManager.configFilesManager(
             os.path.join(self.inputs_folder, self.name_config),
             self.config_squema)
 
@@ -46,9 +46,38 @@ class TestConfigFileManager(unittest.TestCase):
         self.assertIsInstance(self.config_output_waiting, dict)
 
     def test_parser_config(self):
-        self.configfilemanager.is_correct_information()
+        self.configfilemanager.run_check()
         self.assertEqual(self.config_output_waiting,
                          self.configfilemanager.parser_config_dict)
+
+    def test_NotValidValueConfig(self):
+        config_squema2 = 'config_squema2.json'
+        config_squema2_value = None
+        with open(os.path.join(self.inputs_folder,
+                               config_squema2)) as f:
+            config_squema2_value = json.loads(f.read())
+
+        self.configfilemanager = configFilesManager.configFilesManager(
+            os.path.join(self.inputs_folder, self.name_config),
+            config_squema2_value)
+
+        self.assertRaises(NotValidValueConfig,
+                          self.configfilemanager.run_check)
+
+    def test_RequiredNotExiste(self):
+        config_squema3 = 'config_squema3.json'
+        name_config2 = 'config2.ini'
+        config_squema3_value = None
+        with open(os.path.join(self.inputs_folder,
+                               config_squema3)) as f:
+            config_squema3_value = json.loads(f.read())
+
+        self.configfilemanager = None
+        self.configfilemanager = configFilesManager.configFilesManager(
+            os.path.join(self.inputs_folder, name_config2),
+            config_squema3_value)
+        self.assertRaises(RequiredNotExiste,
+                          self.configfilemanager.run_check)
 
 
 if __name__ == '__main__':
