@@ -105,3 +105,6 @@ venv.bak/
 
 # Emacs file
 *~
+
+# pycache
+*__pycache__*

@@ -10,11 +10,19 @@ Core Management
 import getopt
 import os
 import sys
+import logging
 
 import configparser
 
+PACKAGE_PARENT = '..'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+    os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
 from src import ModuleManagement as modman
 from src import CoreException
+
+
 
 CWD = os.getcwd()
 CONFIGURATION_FILE = 'config/config.ini'
@@ -22,6 +30,7 @@ CONFIGURATION_FILE = 'config/config.ini'
 
 class CoreManagement(object):
     def __init__(self):
+        self.logger = None
         self.timeout_database = None
         self.ip = None
         self.port = None
@@ -114,7 +123,7 @@ if __name__ == '__main__':
     try:
         valid_options = getopt.gnu_getopt(sys.argv[1:],
                                           "i:d:h",
-                                          ('install', 'directory', 'help',
+                                          ('install=', 'directory=', 'help',
                                            'test-connection'))
     except getopt.GetoptError as bad_opt:
         sys.exit(
