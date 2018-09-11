@@ -32,12 +32,22 @@ class ModuleManagement(object):
     :type db_name: str
     :param packages_folder: Path to packages folder installed
     :type packages_folder: str
+    :param kargs: Multiple parameters:
+
+        *logger= Logger objet to write system log
+
+    :type kargs: dict
 
     """
 
     def __init__(self, ip: str, port: int, db_name: str,
                  packages_folder: str,
-                 timeout_database: int = 1):
+                 timeout_database: int = 1, **kargs):
+
+        if 'logger' in kargs:
+            self.logger = kargs['logger']
+        else:
+            self.logger = None
         self.timeout_database = timeout_database
         self.ip = ip
         self.port = port
@@ -52,19 +62,29 @@ class ModuleManagement(object):
 
     def ___get_packages_installed(self):
         try:
+            self.logger.debug('Getting list of installed packages')
             self.list_installed_pck = os.listdir(self.packages_folder)
             l_pck = [pck for pck in self.list_installed_pck if
                      os.path.isdir(pck)]
             self.cnt_installed_pck = len(l_pck)
+            self.logger.info('There are {} packages installed'.format(
+                self.cnt_installed_pck
+            ))
+            self.logger.debug('The list of packages installed is: %s ' %
+                              self.list_installed_pck)
             return self.list_installed_pck
         except OSError as oserror:
             print("Error: {}".format(oserror))
 
     def ___connect_to_db(self):
+        if self.logger is not None:
+            self.logger.debug('Checking Connection to DB')
         self.dm = dm.DatabaseManagement(self.ip, self.port, self.db_name,
                                         self.timeout_database)
         self.cm = cm.ConfigurationManagement(self.ip, self.port, self.db_name,
                                              self.timeout_database)
+        if self.logger is not None:
+            self.logger.debug('Checking Connection to DB: OK')
 
     def read_configuration(self, module_name):
         result = self.cm.get_configuration(module_name)

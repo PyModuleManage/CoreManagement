@@ -41,8 +41,15 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 class CoreManagement(object):
+    """ This is the core management. This control the installations, updates, running app, etc.
+
+    :param kargs: This are multiple parameters.:
+
+        *logger= Logger object to write log system.
+    :type kargs: dict
+    """
     def __init__(self, **kargs):
-        if kargs['logger']:
+        if 'logger' in kargs:
             self.logger = kargs['logger']
         else:
             self.logger = None
