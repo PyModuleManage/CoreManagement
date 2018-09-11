@@ -151,7 +151,7 @@ class CoreManagement(object):
 # TODO: Complete the help print
 def help():
     sys.exit("""Usage: python coremangement.py {OPTIONS}
-    
+
     OPTIONS:
         -i, --install <name>
             Specify the name of the module to install
@@ -160,7 +160,7 @@ def help():
         -h, --help
             Print this message.
         --test-connection
-            Test connection to DB     
+            Test connection to DB
     """)
 
 

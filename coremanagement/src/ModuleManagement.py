@@ -42,7 +42,7 @@ class ModuleManagement(object):
 
     def __init__(self, ip: str, port: int, db_name: str,
                  packages_folder: str,
-                 timeout_database: int = 1, **kargs):
+                 timeout_database: int = 1, **kargs: dict):
 
         if 'logger' in kargs:
             self.logger = kargs['logger']
@@ -74,6 +74,7 @@ class ModuleManagement(object):
                               self.list_installed_pck)
             return self.list_installed_pck
         except OSError as oserror:
+            self.logger.error('Error: oserror')
             print("Error: {}".format(oserror))
 
     def ___connect_to_db(self):
@@ -105,9 +106,9 @@ class ModuleManagement(object):
         """
         package = Package.Package(module_name, module_package,
                                   self.packages_folder)
-
         rst = package.install()
         if rst is False:
+            self.logger.error('Error on package installation')
             raise Exception("Error on package installation")
         self.dm.insert_element(self.collection, rst)
 
@@ -119,6 +120,7 @@ class ModuleManagement(object):
             self.___exec_module(buff[0]['exec'],
                                 buff[0]['parameter'])
         except Exception as error:
+            self.logger.error
             print('Error detected: {}'.format(error))
 
     @staticmethod
@@ -127,6 +129,7 @@ class ModuleManagement(object):
             command = '{}'.format(script)
         else:
             command = '{} {}'.format(script, parameter)
+        self.logger.info('I will run: %s' % command)
         os.system(command)
 
     def stop_module(self, module_name):
@@ -136,12 +139,14 @@ class ModuleManagement(object):
         try:
             self.___exec_module(buff[0]['stop_module'])
         except Exception as error:
+            self.logger.error('Error detected: %s' % error)
             print('Error detected: {}'.format(error))
 
     # TODO: Shall remove the package physically
     def remove_module(self, module_name):
         to_delete = {'module_name': module_name}
         result = self.dm.delete_element(self.collection, to_delete)
+        self.logger.info('I will delete the %s' % module_name)
         return result
 
     # TODO: complete this method
@@ -160,7 +165,10 @@ class ModuleManagement(object):
         pass
 
     def test_connection(self) -> bool:
+        self.logger.info('Testing connection ... ')
         if self.dm.test_connection():
+            self.logger.info('Connection OK')
             return True
         else:
+            self.logger.info('Connection NOK')
             return False
