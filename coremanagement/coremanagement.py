@@ -11,7 +11,6 @@ import getopt
 import os
 import sys
 import logging
-
 import configparser
 
 PACKAGE_PARENT = '..'
@@ -22,15 +21,31 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 from src import ModuleManagement as modman
 from src import CoreException
 
-
-
 CWD = os.getcwd()
 CONFIGURATION_FILE = 'config/config.ini'
 
+LOG_PATH = os.path.join(SCRIPT_DIR, 'log/')
+if not os.path.exists(os.path.join(LOG_PATH)):
+
+    os.makedirs(os.path.join(LOG_PATH))
+
+logger = logging.getLogger('CoreManagemet')
+logger.setLevel(logging.DEBUG)
+
+fh = logging.FileHandler(os.path.join(LOG_PATH,'coremanagement.log'))
+fh.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+fh.setFormatter(formatter)
+logger.addHandler(fh)
 
 class CoreManagement(object):
-    def __init__(self):
-        self.logger = None
+    def __init__(self, **kargs):
+        if kargs['logger']:
+            self.logger = kargs['logger']
+        else:
+            self.logger = None
         self.timeout_database = None
         self.ip = None
         self.port = None
@@ -43,9 +58,17 @@ class CoreManagement(object):
             raise Exception("DB connection Error")
 
     def ___test_connection_to_database(self) -> bool:
+        if self.logger is not None:
+            self.logger.debug('Testing Connection ... ')
         if self.mm.test_connection():
+            if self.logger is not None:
+                self.logger.debug('Testing connection result: OK')
             return True
         else:
+            if self.logger is not None:
+                self.logger.debug('Testing connection result: Fail. Please '
+                                  'check the connection information or check '
+                                  'if mongod start successfully')
             return False
 
     def ___create_instance_module_management(self):
@@ -54,6 +77,11 @@ class CoreManagement(object):
                                           self.timeout_database)
 
     def read_configuration(self, path_to_configuration):
+        if self.logger is not None:
+            self.logger.debug('Core management will read the configuration '
+                              'file')
+            self.logger.debug('The configuration path is: %s'
+                              % path_to_configuration)
         config = configparser.ConfigParser()
         config.read(path_to_configuration)
         self.ip = config['CONFIG']['IP'].strip()
@@ -62,6 +90,14 @@ class CoreManagement(object):
         self.db_name = config['CONFIG']['DB_NAME'].strip()
         self.installation_path = config['CONFIG']['INSTALL_PATH'].strip()
         self.timeout_database = config.getint('CONFIG', 'TIMEOUT_DB_MS')
+        if self.logger is not None:
+            self.logger.info('The configuration data to connect to DB are:')
+            self.logger.info('IP: %s' % self.ip)
+            self.logger.info('PORT: %s' % self.port)
+            self.logger.info('DB_NAME: %s' % self.db_name)
+            self.logger.info('Installation Path: %s' % self.installation_path)
+            self.logger.info('Timeout Database %s' % self.timeout_database)
+
         if len(self.ip) == 0 and len(self.port) == 0 and \
                 len(self.db_name) == 0 and len(self.installation_path) == 0:
             raise Exception('There are not sufficient data on CONFIG_CORE.ini')
@@ -80,6 +116,10 @@ class CoreManagement(object):
         if os.path.exists(module):
             print('CoreManagement: I will try to install {} ...'.format(
                 module_name))
+            if self.logger is not None:
+                self.info('Coremanagement: I will try toi install {} ...'.format(
+                    module_name
+                ))
             try:
                 self.mm.install_module(module_name, module)
             except CoreException.ErrorInsertElementOnDatabase as error:
@@ -90,8 +130,15 @@ class CoreManagement(object):
             else:
                 print('Installation of {} module '
                       'successfully'.format(module_name))
+                if self.logger is not None:
+                    self.logger.info('Installation of {} module'
+                                     'successfully'.format(module_name))
         else:
             print('The {} module does not exist'.format(module))
+            if self.logger is not None:
+                self.logger.info('The {} module does not exist'.format(
+                    module
+                ))
 
 
 # TODO: Complete the help print
@@ -117,7 +164,7 @@ if __name__ == '__main__':
     directory_module = None
 
     try:
-        core = CoreManagement()
+        core = CoreManagement(logger=logger)
     except CoreException.TimeOutCoreDatabase as error:
         sys.exit("""Error on DB Connection: {}""".format(error))
     try:
