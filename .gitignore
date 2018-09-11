@@ -108,3 +108,6 @@ venv.bak/
 
 # pycache
 *__pycache__*
+
+# Pycharm
+*.idea/*

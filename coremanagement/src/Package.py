@@ -22,9 +22,17 @@ class Package(object):
     :type module_package: str
     :param dst_package: path where package are installed
     :type dst_package: str
+    :param kargs: Multiple parameters:
 
+        *logger= Logger objet to write system log
+
+    :type kargs: dict
     """
-    def __init__(self, module_name, module_package, dst_package):
+    def __init__(self, module_name: str, module_package: str, dst_package: str, **kargs: dict):
+        if 'logger' in kargs:
+            self.logger = kargs['logger']
+        else:
+            self.logger = None
         self.module_name = module_name
         self.module_package = module_package  # path to the module
         self.dst_package = dst_package
@@ -38,7 +46,8 @@ class Package(object):
                             'r').extractall(self.dst_package)
             # TODO: maybe we need to rm the .tar.gz package
         except IOError as ioerror:
-            print('Error in the copy package to dst: {}'.format(ioerror))
+            self.logger.error('Error in the copy package to dst: {}' .format(ioerror))
+            # print('Error in the copy package to dst: {}'.format(ioerror))
 
     def read_package_data(self):
         with open(os.path.join(self.dst_package, '{}.json'.format(
@@ -48,6 +57,8 @@ class Package(object):
                 self.package_information = data
                 return True
             else:
+                self.logger.warning('Raise exception: Module name including in the'
+                                    'package is  not given name same')
                 raise Exception('Module name including in the package is not '
                                 'given name same')
 
@@ -55,9 +66,11 @@ class Package(object):
         try:
             self.___uncompress_package()
             self.read_package_data()
+            self.logger.info("installation successfully")
             return self.package_information
         except Exception as error:
-            print('Error: {}'.format(error))
+            self.logger.error('Error on install process %s' % error)
+            # print('Error: {}'.format(error))
             return False
 
 
